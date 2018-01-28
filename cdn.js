@@ -7,7 +7,7 @@ const app = express();
 const fs = require("fs");
 const randomstring = require("randomstring");
 const mime = require("mime-types");
-const auth = require('config.json').auth;
+const auth = require('./config.json').auth;
 const sha512 = require("sha512");
 const fileUpload = require("express-fileupload");
 try {fs.mkdirSync("data");}catch(error){}
