@@ -10,6 +10,7 @@ const mime = require("mime-types");
 const auth = require('./config.json').auth;
 const sha512 = require("sha512");
 const fileUpload = require("express-fileupload");
+const baseUri = 'https://cdn.jellz.fun/';
 try {fs.mkdirSync("data");}catch(error){}
 app.get("/", (req, res)=>{
     res.send('Jellz CDN [for private use]');
@@ -29,7 +30,7 @@ app.post("/upload/:token", (req, res) => {
         let fn = rdm+"."+ext;
         v.mv("data/"+fn)
         if (issue) return res.json({error:issue});
-        res.json({message:"uploaded", file:fn});
+        res.json({message:"uploaded", file:baseUri + fn});
     } else {
         res.sendStatus(403);
     }
