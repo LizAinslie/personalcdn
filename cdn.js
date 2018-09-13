@@ -10,30 +10,42 @@ const mime = require("mime-types");
 const auth = require('./config.json').auth;
 const sha512 = require("sha512");
 const fileUpload = require("express-fileupload");
-const baseUri = 'https://cdn.jellz.fun/';
-try {fs.mkdirSync("data");}catch(error){}
+const baseUri = 'https://i.railrunner16.me/';
+const path = require('path');
+const rethinkdb = require('rethinkdbdash')({ discovery: true, host: 'localhost', port: 28016, db: 'imgs' });
+
+try {
+	fs.mkdirSync("data")
+}catch(error){}
 app.get("/", (req, res)=>{
-    res.send('Jellz CDN [for private use]');
+	res.sendFile(path.join(__dirname+'/index.html'));
 });
 app.use(express.static("data"));
 app.use(fileUpload({preserveExtension: true, safeFileNames: true}))
-app.post("/upload/:token", (req, res) => {
-    let token = req.params.token;
-    let issue = null;
-    if (auth == token) {
-        if (!req.files) return res.send("no files");
-        let v = req.files.file;
-        if (!v) return res.send("no files file")
-        let rdm = randomstring.generate(7);
-        let ext = mime.extension(v.mimetype);
-        if (!ext) return issue = "invalid mimetype.";
-        let fn = rdm+"."+ext;
-        v.mv("data/"+fn)
-        if (issue) return res.json({error:issue});
-        res.json({message:"uploaded", file:baseUri + fn});
-    } else {
-        res.sendStatus(403);
-    }
+app.post("/upload", (req, res) => {
+	let token = req.body.token;
+	let issue = null; 
+	if (auth == token) {
+		if (!req.files) return res.send("no files");
+		let v = req.files.file;
+		if (!v) return res.send("no files file")
+		let rdm = randomstring.generate(7)
+		let ext = mime.extension(v.mimetype);
+		if (!ext) return issue = "invalid mimetype.";
+	        let fn = rdm+"."+ext;
+		rethinkdb.table('images').insert({
+			url: baseUri + fn
+		}).run(err => {
+			if (err) console.error(err)
+			console.info(`Uploaded ${fn}`)
+		});
+	        v.mv("data/"+fn)
+	        if (issue) return res.json({error:issue});
+	        res.json({message:"uploaded", file:baseUri + fn});
+	} else {
+	        res.sendStatus(403);
+    	}
 });
 app.use(fileUpload({safeFileNames:true, preserveExtension:true}));
-app.listen(process.env.PORT || 3004);
+app.listen(process.env.PORT || 3001);
+console.log("running on port 3001")

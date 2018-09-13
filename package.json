@@ -24,6 +24,7 @@
     "express-fileupload": "^0.3.0",
     "mime-types": "^2.1.17",
     "randomstring": "^1.1.5",
+    "rethinkdbdash": "^2.3.31",
     "sha512": "0.0.1"
   }
 }
