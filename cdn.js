@@ -35,6 +35,7 @@ app.post("/upload", (req, res) => {
 		if (!ext) return issue = "invalid mimetype.";
 	        let fn = rdm+"."+ext;
 		rethinkdb.table('images').insert({
+			id: fn,
 			url: baseUri + fn
 		}).run(err => {
 			if (err) console.error(err)

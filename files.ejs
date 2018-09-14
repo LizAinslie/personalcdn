@@ -10,15 +10,15 @@
 		<div class="container mt-3">
 			<ul class="list-group">
 				<% files.forEach(file => { %>
-						<li class="list-group-item">
+						<a href="<%= file.url %>" class="list-group-item list-group-item-action">
 							<div class="media">
 								<img width="64" height="64" class="mr-3" src="<%=file.url%>" alt="Generic placeholder image">
 								<div class="media-body">
 									<h5 class="mt-0"><%= file.id %></h5>
-									<a href="<%= file.url %>" target="_blank"><%= file.url %></a>
+									<%= file.url %>
 								</div>
 							</div>
-						</li>
+						</a>
 				<% }); %>
 			</ul>
 		</div>
