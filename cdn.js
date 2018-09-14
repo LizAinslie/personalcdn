@@ -48,7 +48,7 @@ app.post("/upload", (req, res) => {
 	}
 });
 app.get('/files', (req, res) => {
-	rethinkdb.table('images').run(result => {
+	rethinkdb.table('images').run().then(result => {
 		ejs.renderFile('files.ejs', {files: result}, (err, str) => {
 			if (err) console.error(err)
 			res.send(str)
