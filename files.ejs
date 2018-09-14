@@ -2,23 +2,27 @@
 <html>
 	<head>
 		<meta charset="utf-8">
- 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 		<title>Rail's Images</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<body>
 		<div class="container mt-3">
-			<form enctype="multipart/form-data" method="post" action="/upload">
-				<div class="form-group">
-					<label for="file">Choose Image</label>
-					<input type="file" class="form-control" name="file", id="file" />
-				</div>
-				<div class="form-group">
-					<label for="token">Password</label>
-					<input type="password" class="form-control" name="token" id="token" />
-				</div>
-				<input type="submit" value="Upload!" class="btn btn-primary" />
-			</form>
+			<ul class="list-group">
+				<% files.forEach(file => { %>
+					<a href="<%= file.url %>" target="_blank">
+						<li class="list-group-item">
+							<div class="media">
+								<img class="mr-3" src="<%=file.url%>" alt="Generic placeholder image">
+								<div class="media-body">
+									<h5 class="mt-0"><%= file.id %></h5>
+									<%= file.url %>
+								</div>
+							</div>
+						</li>
+					</a>
+				<% }); %>
+			</ul>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

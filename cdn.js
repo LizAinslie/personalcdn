@@ -13,6 +13,7 @@ const fileUpload = require("express-fileupload");
 const baseUri = 'https://i.railrunner16.me/';
 const path = require('path');
 const rethinkdb = require('rethinkdbdash')({ discovery: true, host: 'localhost', port: 28016, db: 'imgs' });
+const ejs = require('ejs')
 
 try {
 	fs.mkdirSync("data")
@@ -39,13 +40,21 @@ app.post("/upload", (req, res) => {
 			if (err) console.error(err)
 			console.info(`Uploaded ${fn}`)
 		});
-	        v.mv("data/"+fn)
-	        if (issue) return res.json({error:issue});
-	        res.json({message:"uploaded", file:baseUri + fn});
+		v.mv("data/"+fn)
+		if (issue) return res.json({error:issue});
+		res.json({message:"uploaded", file:baseUri + fn});
 	} else {
-	        res.sendStatus(403);
-    	}
+		res.sendStatus(403);
+	}
 });
+app.get('/files', (req, res) => {
+	rethinkdb.table('images').run(result => {
+		ejs.renderFile('files.ejs', {files: result}, (err, str) => {
+			if (err) console.error(err)
+			res.send(str)
+		})
+	})
+})
 app.use(fileUpload({safeFileNames:true, preserveExtension:true}));
 app.listen(process.env.PORT || 3001);
 console.log("running on port 3001")
