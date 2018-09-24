@@ -19,18 +19,18 @@
 				</div>
 				<input type="submit" value="Upload!" class="btn btn-primary" />
 			</form>
-		</div>
-		<hr />
-		<div class="card-columns">
-			<% files.forEach(file => { %>
-				<div class="card">
-					<img class="card-img-top" src="<%= file.url %>" alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title"><%= file.id %></h5>
-						<p class="card-text"><a href="<%= file.url %>" target="_blank"><%= file.url %></a></p>
+			<hr />
+			<div class="card-columns">
+				<% files.forEach(file => { %>
+					<div class="card">
+						<img class="card-img-top" src="<%= file.url %>" alt="Card image cap">
+						<div class="card-body">
+							<h5 class="card-title"><%= file.id %></h5>
+							<p class="card-text"><a href="<%= file.url %>" target="_blank"><%= file.url %></a></p>
+						</div>
 					</div>
-				</div>
-			<% }); %>
+				<% }); %>
+			</div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
