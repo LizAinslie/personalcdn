@@ -19,7 +19,12 @@ try {
 	fs.mkdirSync("data")
 }catch(error){}
 app.get("/", (req, res)=>{
-	res.sendFile(path.join(__dirname+'/index.html'));
+	rethinkdb.table('images').run().then(result => {
+		ejs.renderFile('index.ejs', {files: result}, (err, str) => {
+			if (err) console.error(err)
+			res.send(str)
+		})
+	})
 });
 app.use(express.static("data"));
 app.use(fileUpload({preserveExtension: true, safeFileNames: true}))
@@ -42,20 +47,15 @@ app.post("/upload", (req, res) => {
 			console.info(`Uploaded ${fn}`)
 		});
 		v.mv("data/"+fn)
-		if (issue) return res.json({error:issue});
-		res.json({message:"uploaded", file:baseUri + fn});
+		if (issue) return res.json({ error: issue });
+		ejs.renderFile('index.ejs', { file: baseUri + fn }, (err, str) => {
+			if (err) console.error(err)
+			res.send(str)
+		})
 	} else {
 		res.sendStatus(403);
 	}
 });
-app.get('/files', (req, res) => {
-	rethinkdb.table('images').run().then(result => {
-		ejs.renderFile('files.ejs', {files: result}, (err, str) => {
-			if (err) console.error(err)
-			res.send(str)
-		})
-	})
-})
 app.use(fileUpload({safeFileNames:true, preserveExtension:true}));
 app.listen(process.env.PORT || 3001);
 console.log("running on port 3001")
