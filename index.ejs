@@ -23,7 +23,7 @@
 			<div class="card-columns">
 				<% files.forEach(file => { %>
 					<div class="card">
-						<img class="card-img-top" src="<%= file.url %>" alt="Card image cap">
+						<<%= file.url.endsWith('mp4') ? 'img' : 'video' %> class="card-img-top" src="<%= file.url %>" alt="Card image cap">
 						<div class="card-body">
 							<h5 class="card-title"><%= file.id %></h5>
 							<p class="card-text"><a href="<%= file.url %>" target="_blank"><%= file.url %></a></p>
