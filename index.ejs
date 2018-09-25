@@ -23,10 +23,12 @@
 			<div class="card-columns">
 				<% files.forEach(file => { %>
 					<div class="card">
-						<% if (file.url.endsWith('mp4')) { %> 
-						    <video controls class="card-img-top">
-						        <source src="<%= file.url %>" type="video/mp4" />
-						    </video>
+						<% if (file.url.endsWith('mp4')) { %>
+						    <div align="center" class="embed-responsive embed-responsive-16by9 card-img0-top">
+                                <video autoplay loop class="embed-responsive-item">
+                                    <source src="<%= file.url %>" type="video/mp4">
+                                </video>
+                            </div>
 						<% } else { %>
 						    <img class="card-img-top" src="<%= file.url %>" alt="Card image cap">
 						<% } %>
