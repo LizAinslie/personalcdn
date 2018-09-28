@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/RONTheCookie/personalcdn#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
     "express": "^4.16.2",
     "express-fileupload": "^0.3.0",
     "mime-types": "^2.1.17",

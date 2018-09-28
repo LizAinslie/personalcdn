@@ -9,7 +9,15 @@
 	<body>
 		<div class="container">
 			<div class="card">
-				<img class="card-img-top" src="<%= file %>" alt="Image">
+				<% if (file.endsWith('.mp4')) { %>
+					 <div align="center" class="embed-responsive embed-responsive-16by9 card-img0-top">
+						<video controls loop class="embed-responsive-item">
+							<source src="<%= file &>" type="video/mp4">
+						</video>
+					</div>
+				<% } else { %>
+					<img class="card-img-top" src="<%= file %>" alt="Image">
+				<% } %>
 				<div class="card-body">
 					<%= file %>
 				</div>
