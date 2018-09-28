@@ -48,7 +48,7 @@ app.post("/upload", (req, res) => {
 		});
 		v.mv("data/"+fn)
 		if (issue) return res.json({ error: issue });
-		ejs.renderFile('index.ejs', { file: baseUri + fn }, (err, str) => {
+		ejs.renderFile('upload.ejs', { file: baseUri + fn }, (err, str) => {
 			if (err) console.error(err)
 			res.send(str)
 		})
