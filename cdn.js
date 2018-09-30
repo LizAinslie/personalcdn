@@ -17,7 +17,7 @@ const ejs = require('ejs')
 
 function includes(haystack, needle){
   for(var i = 0; i < haystack.length; i++){
-    if(haystack[i] === needle){
+    if(haystack[i].username === needle.username && haystack[i].password === needle.password){
       return true;
     }
   }
