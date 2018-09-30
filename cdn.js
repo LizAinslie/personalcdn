@@ -30,6 +30,7 @@ app.use(express.static("data"));
 app.use(fileUpload({preserveExtension: true, safeFileNames: true}))
 app.post("/upload", (req, res) => {
 	rethinkdb.table('logins').run().then(logins => {
+		console.info(logins)
 		const login = {
 			username: req.body.user,
 			password: req.body.pass
