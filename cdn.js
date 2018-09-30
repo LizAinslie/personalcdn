@@ -32,8 +32,8 @@ app.post("/upload", (req, res) => {
 	rethinkdb.table('logins').run().then(logins => {
 		console.info(logins)
 		const login = {
-			username: req.body.user,
-			password: req.body.pass
+			password: req.body.pass,
+			username: req.body.user
 		}
 		console.log(login)
 		let issue = null; 
