@@ -36,7 +36,8 @@ app.post("/upload", (req, res) => {
 			username: req.body.user
 		}
 		console.log(login)
-		let issue = null; 
+		console.log(logins.includes(login))
+		let issue = null;
 		if (logins.includes(login)) {
 			if (!req.files) return res.send("no files");
 			let v = req.files.file;
