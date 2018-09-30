@@ -29,32 +29,37 @@ app.get("/", (req, res)=>{
 app.use(express.static("data"));
 app.use(fileUpload({preserveExtension: true, safeFileNames: true}))
 app.post("/upload", (req, res) => {
-	let token = req.body.token;
-	let issue = null; 
-	if (auth == token) {
-		if (!req.files) return res.send("no files");
-		let v = req.files.file;
-		if (!v) return res.send("no files file")
-		let rdm = randomstring.generate(7)
-		let ext = mime.extension(v.mimetype);
-		if (!ext) return issue = "invalid mimetype.";
-	        let fn = rdm+"."+ext;
-		rethinkdb.table('images').insert({
-			id: fn,
-			url: baseUri + fn
-		}).run(err => {
-			if (err) console.error(err)
-			console.info(`Uploaded ${fn}`)
-		});
-		v.mv("data/"+fn)
-		if (issue) return res.json({ error: issue });
-		ejs.renderFile('upload.ejs', { file: baseUri + fn }, (err, str) => {
-			if (err) console.error(err)
-			res.send(str)
-		})
-	} else {
-		res.sendStatus(403);
-	}
+	rethinkdb.table('logins').run().then(logins => {
+		const login = {
+			username: req.body.user,
+			password: req.body.pass
+		}
+		let issue = null; 
+		if (logins.includes(login)) {
+			if (!req.files) return res.send("no files");
+			let v = req.files.file;
+			if (!v) return res.send("no files file")
+			let rdm = randomstring.generate(7)
+			let ext = mime.extension(v.mimetype);
+			if (!ext) return issue = "invalid mimetype.";
+		        let fn = rdm+"."+ext;
+			rethinkdb.table('images').insert({
+				id: fn,
+				url: baseUri + fn
+			}).run(err => {
+				if (err) console.error(err)
+				console.info(`Uploaded ${fn}`)
+			});
+			v.mv("data/"+fn)
+			if (issue) return res.json({ error: issue });
+			ejs.renderFile('upload.ejs', { file: baseUri + fn }, (err, str) => {
+				if (err) console.error(err)
+				res.send(str)
+			})
+		} else {
+			res.sendStatus(403);
+		}
+	})
 });
 app.use(fileUpload({safeFileNames:true, preserveExtension:true}));
 app.listen(process.env.PORT || 3001);
