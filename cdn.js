@@ -15,6 +15,15 @@ const path = require('path');
 const rethinkdb = require('rethinkdbdash')({ discovery: true, host: 'localhost', port: 28016, db: 'imgs' });
 const ejs = require('ejs')
 
+function includes(haystack, needle){
+  for(var i = 0; i < haystack.length; i++){
+    if(haystack[i] === needle){
+      return true;
+    }
+  }
+  return false;
+}
+
 try {
 	fs.mkdirSync("data")
 }catch(error){}
@@ -36,9 +45,9 @@ app.post("/upload", (req, res) => {
 			username: req.body.user
 		}
 		console.log(login)
-		console.log(logins.includes(login))
+		console.log(includes(logins, login))
 		let issue = null;
-		if (logins.includes(login)) {
+		if (includes(logins, login)) {
 			if (!req.files) return res.send("no files");
 			let v = req.files.file;
 			if (!v) return res.send("no files file")
